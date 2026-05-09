@@ -74,6 +74,99 @@ function pacamara_register_block_patterns_category() {
 
 add_action( 'init', 'pacamara_register_block_patterns_category', 9 );
 
+/**
+ * Register custom block category.
+ */
+add_filter( 'block_categories_all', function ( array $categories ): array {
+	return array_merge(
+		array(
+			array(
+				'slug'  => 'pacamara',
+				'title' => esc_html__( 'Pacamara', 'pacamara' ),
+			),
+		),
+		$categories
+	);
+}, 10, 1 );
+
+/**
+ * Register the hero block with an explicit render callback.
+ */
+add_action( 'init', function (): void {
+	register_block_type(
+		PACAMARA_THEME_DIR . '/blocks/hero',
+		array(
+			'render_callback' => function ( array $attributes, ?string $content, WP_Block $block ): string {
+				$inner_content = '';
+
+
+				if ( ! empty( $content ) ) {
+					$inner_content = $content;
+				} elseif ( ! empty( $block->inner_blocks ) && count( $block->inner_blocks ) > 0 ) {
+					foreach ( $block->inner_blocks as $inner ) {
+						$inner_content .= $inner->render();
+					}
+				} elseif ( ! empty( $block->parsed_block['innerBlocks'] ) ) {
+					$registry = WP_Block_Type_Registry::get_instance();
+					foreach ( $block->parsed_block['innerBlocks'] as $inner_data ) {
+						$inner = new WP_Block( $inner_data, $block->context, $registry );
+						$inner_content .= $inner->render();
+					}
+				}
+
+				$render_file = PACAMARA_THEME_DIR . '/blocks/hero/render.php';
+				if ( ! file_exists( $render_file ) ) {
+					return '';
+				}
+				ob_start();
+				require $render_file;
+				return (string) ob_get_clean();
+			},
+		)
+	);
+} );
+
+/**
+ * Enqueue the hero block editor script built by Vite.
+ *
+ * Loads directly from the manifest rather than using Vite\enqueue_asset
+ * to avoid the type="module" attribute, since the production build
+ * uses IIFE format with global wp.* references.
+ */
+add_action( 'enqueue_block_editor_assets', function (): void {
+	$manifest_path = PACAMARA_THEME_DIR . '/public/build/manifest.json';
+
+	if ( ! file_exists( $manifest_path ) ) {
+		return;
+	}
+
+	$manifest = wp_json_file_decode( $manifest_path );
+
+	if ( ! $manifest || ! isset( $manifest->{'resources/js/blocks/hero/index.jsx'} ) ) {
+		return;
+	}
+
+	$entry = $manifest->{'resources/js/blocks/hero/index.jsx'};
+	$script_url = PACAMARA_THEME_URL . '/public/build/' . $entry->file;
+
+	wp_enqueue_script(
+		'pacamara-hero-editor',
+		$script_url,
+		array(
+			'wp-blocks',
+			'wp-element',
+			'wp-block-editor',
+			'wp-components',
+			'wp-i18n',
+			'wp-primitives',
+			'wp-compose',
+			'wp-data',
+		),
+		null,
+		true
+	);
+} );
+
 add_action( 'wp_head', function (): void {
 	if ( is_admin() ) {
 		return;

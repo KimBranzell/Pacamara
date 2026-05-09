@@ -1,0 +1,331 @@
+.wp-block-pacamara-hero {
+	position: relative;
+	display: flex;
+	align-items: var(--hero-content-align, center);
+	justify-content: center;
+	overflow: hidden;
+	min-height: var(--hero-min-height, 75vh);
+	box-sizing: border-box;
+}
+
+.wp-block-pacamara-hero__media {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	overflow: hidden;
+}
+
+.wp-block-pacamara-hero:not(.has-layout-split) .wp-block-pacamara-hero__media {
+	background-image: var(--hero-bg-image);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: var(--hero-bg-position, center);
+}
+
+.has-layout-split .wp-block-pacamara-hero__media {
+	position: relative;
+	grid-area: media;
+	width: 100%;
+	height: 100%;
+}
+
+.wp-block-pacamara-hero__image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.wp-block-pacamara-hero__overlay {
+	position: absolute;
+	inset: 0;
+	background: var(--hero-overlay-color, rgba(0, 0, 0, 0.4));
+	opacity: var(--hero-overlay-opacity, 0.4);
+	transition: opacity 0.3s ease;
+}
+
+.has-overlay-gradient .wp-block-pacamara-hero__overlay {
+	opacity: 1;
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--hero-overlay-color) calc(var(--hero-overlay-opacity, 0.4) * 100%), transparent) 0%,
+		transparent 100%
+	);
+}
+
+.wp-block-pacamara-hero__content {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	max-width: var(--hero-content-max-width, 800px);
+	padding: 2rem;
+	box-sizing: border-box;
+}
+
+.has-content-position-top {
+	--hero-content-align: flex-start;
+}
+
+.has-content-position-center {
+	--hero-content-align: center;
+}
+
+.has-content-position-bottom {
+	--hero-content-align: flex-end;
+}
+
+.has-layout-centered {
+	flex-direction: column;
+	text-align: center;
+}
+
+.has-layout-split {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-areas: "media content";
+}
+
+.has-layout-split:not(.has-background-image) {
+	grid-template-columns: 1fr;
+	grid-template-areas: "content";
+}
+
+.has-layout-split .wp-block-pacamara-hero__content {
+	grid-area: content;
+	display: flex;
+	flex-direction: column;
+	justify-content: var(--hero-content-align, center);
+	padding: 3rem;
+}
+
+.has-layout-split.has-content-position-top .wp-block-pacamara-hero__content {
+	justify-content: flex-start;
+}
+
+.has-layout-split.has-content-position-center .wp-block-pacamara-hero__content {
+	justify-content: center;
+}
+
+.has-layout-split.has-content-position-bottom .wp-block-pacamara-hero__content {
+	justify-content: flex-end;
+}
+
+.has-layout-split .wp-block-pacamara-hero__overlay {
+	position: absolute;
+	inset: 0;
+}
+
+.has-parallax .wp-block-pacamara-hero__media {
+	background-attachment: fixed;
+}
+
+@supports (animation-timeline: view()) {
+	.has-parallax .wp-block-pacamara-hero__media {
+		background-attachment: initial;
+		animation: parallax-timeline linear forwards;
+		animation-timeline: view();
+		animation-range: entry 0% exit 100%;
+		will-change: transform;
+	}
+}
+
+@keyframes parallax-timeline {
+	0% {
+		transform: translateY(0);
+	}
+	100% {
+		transform: translateY(25%);
+	}
+}
+
+.has-scroll-indicator {
+	padding-bottom: 4rem;
+}
+
+.wp-block-pacamara-hero__scroll-indicator {
+	position: absolute;
+	bottom: 1.5rem;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 2;
+	opacity: 0.7;
+	animation: scroll-bounce 2s ease-in-out infinite;
+}
+
+.wp-block-pacamara-hero__scroll-indicator span {
+	display: block;
+	width: 24px;
+	height: 40px;
+	border: 2px solid currentColor;
+	border-radius: 12px;
+	position: relative;
+	opacity: 0.8;
+}
+
+.wp-block-pacamara-hero__scroll-indicator span::before {
+	content: '';
+	display: block;
+	width: 4px;
+	height: 8px;
+	background: currentColor;
+	border-radius: 2px;
+	position: absolute;
+	top: 8px;
+	left: 50%;
+	transform: translateX(-50%);
+	animation: scroll-dot 2s ease-in-out infinite;
+}
+
+@keyframes scroll-bounce {
+	0%,
+	100% {
+		transform: translateX(-50%) translateY(0);
+	}
+	50% {
+		transform: translateX(-50%) translateY(6px);
+	}
+}
+
+@keyframes scroll-dot {
+	0%,
+	100% {
+		opacity: 1;
+		transform: translateX(-50%) translateY(0);
+	}
+	50% {
+		opacity: 0.3;
+		transform: translateX(-50%) translateY(12px);
+	}
+}
+
+.has-entrance-animation .wp-block-pacamara-hero__content {
+	opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.has-entrance-animation .wp-block-pacamara-hero__content {
+		animation: hero-entrance-fadeInUp 0.8s ease-out 0.2s forwards;
+	}
+
+	.has-entrance-fadeIn .wp-block-pacamara-hero__content {
+		animation-name: hero-entrance-fadeIn;
+	}
+
+	.has-entrance-slideInLeft .wp-block-pacamara-hero__content {
+		animation-name: hero-entrance-slideInLeft;
+	}
+
+	.has-entrance-slideInRight .wp-block-pacamara-hero__content {
+		animation-name: hero-entrance-slideInRight;
+	}
+}
+
+@keyframes hero-entrance-fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes hero-entrance-fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes hero-entrance-slideInLeft {
+	from {
+		opacity: 0;
+		transform: translateX(-40px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes hero-entrance-slideInRight {
+	from {
+		opacity: 0;
+		transform: translateX(40px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+.wp-block-pacamara-hero__divider {
+	position: absolute;
+	bottom: -1px;
+	left: 0;
+	right: 0;
+	z-index: 2;
+	line-height: 0;
+	pointer-events: none;
+}
+
+.wp-block-pacamara-hero__divider svg {
+	display: block;
+	width: 100%;
+	height: 80px;
+	fill: var(--wp--preset--color--base, #EEE9DF);
+}
+
+.has-layout-split .wp-block-pacamara-hero__divider svg {
+	height: 60px;
+}
+
+@media (max-width: 768px) {
+	.has-layout-split {
+		grid-template-columns: 1fr;
+		grid-template-rows: 40vh auto;
+		grid-template-areas:
+			"media"
+			"content";
+	}
+
+	.has-layout-split .wp-block-pacamara-hero__content {
+		padding: 2rem 1.5rem;
+	}
+
+	.wp-block-pacamara-hero {
+		min-height: var(--hero-min-height, 50vh);
+	}
+
+	.wp-block-pacamara-hero__divider svg {
+		height: 40px;
+	}
+
+	.has-parallax .wp-block-pacamara-hero__media {
+		background-attachment: scroll;
+	}
+
+	.has-layout-centered.has-min-height-100vh,
+	.has-layout-centered.has-min-height-75vh {
+		min-height: 60vh;
+	}
+}
+
+.has-background-image .wp-block-pacamara-hero__content * {
+	color: #ffffff;
+}
+
+.has-background-image .wp-block-pacamara-hero__content .wp-block-button__link {
+	color: inherit;
+}
+
+.wp-block-pacamara-hero__content > :last-child {
+	margin-bottom: 0;
+}
+
+.wp-block-pacamara-hero__content > :first-child {
+	margin-top: 0;
+}

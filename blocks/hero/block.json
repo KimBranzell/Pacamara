@@ -1,0 +1,94 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pacamara/hero",
+  "version": "1.0.0",
+  "title": "Hero",
+  "category": "theme",
+  "icon": "cover-image",
+  "description": "A versatile hero block with background image, overlay, content area, and style variations.",
+  "keywords": ["hero", "banner", "header", "cover"],
+  "textdomain": "pacamara",
+  "attributes": {
+    "minHeight": {
+      "type": "string",
+      "default": "75vh"
+    },
+    "contentWidth": {
+      "type": "string",
+      "default": "default"
+    },
+    "contentPosition": {
+      "type": "string",
+      "default": "center"
+    },
+    "overlayOpacity": {
+      "type": "number",
+      "default": 40
+    },
+    "overlayColor": {
+      "type": "string",
+      "default": "light-dark(#C9C1B1, #5E758C)"
+    },
+    "overlayType": {
+      "type": "string",
+      "default": "solid"
+    },
+    "mediaId": {
+      "type": "number",
+      "default": 0
+    },
+    "mediaUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "focalPoint": {
+      "type": "object",
+      "default": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "parallax": {
+      "type": "boolean",
+      "default": false
+    },
+    "showScrollIndicator": {
+      "type": "boolean",
+      "default": false
+    },
+    "layoutStyle": {
+      "type": "string",
+      "default": "centered"
+    },
+    "entranceAnimation": {
+      "type": "boolean",
+      "default": true
+    },
+    "entranceAnimationType": {
+      "type": "string",
+      "default": "fadeInUp"
+    },
+    "dividerStyle": {
+      "type": "string",
+      "default": "none"
+    },
+    "contextMode": {
+      "type": "string",
+      "default": "manual"
+    }
+  },
+  "supports": {
+    "align": ["wide", "full"],
+    "html": false,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "ariaLabel": true,
+    "layout": false
+  },
+  "style": "file:./style.css",
+  "editorStyle": "file:./editor.css",
+  "render": "file:./render.php"
+}

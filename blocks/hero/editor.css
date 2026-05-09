@@ -1,0 +1,46 @@
+.wp-block-pacamara-hero {
+	outline: 1px dashed rgba(128, 128, 128, 0.3);
+	outline-offset: -1px;
+}
+
+.block-editor-block-list__block .wp-block-pacamara-hero {
+	min-height: var(--hero-min-height, 300px);
+}
+
+.wp-block-pacamara-hero .wp-block-pacamara-hero__media {
+	background-image: var(--hero-bg-image);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: var(--hero-bg-position, center);
+}
+
+.wp-block-pacamara-hero.has-layout-split .wp-block-pacamara-hero__media {
+	background-image: none;
+}
+
+.wp-block-pacamara-hero__overlay {
+	position: absolute;
+	inset: 0;
+	background: var(--hero-overlay-color, rgba(0, 0, 0, 0.4));
+	opacity: var(--hero-overlay-opacity, 0.4);
+	pointer-events: none;
+}
+
+.has-overlay-gradient .wp-block-pacamara-hero__overlay {
+	opacity: 1;
+	background: linear-gradient(
+		180deg,
+		var(--hero-overlay-color) 0%,
+		transparent 100%
+	) !important;
+}
+
+.wp-block-pacamara-hero.has-background-image .block-editor-inner-blocks,
+.wp-block-pacamara-hero.has-background-image .block-editor-rich-text__editable {
+	color: #ffffff;
+}
+
+.wp-block-pacamara-hero__content {
+	width: 100%;
+	max-width: var(--hero-content-max-width, 800px);
+}
